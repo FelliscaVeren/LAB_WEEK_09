@@ -16,6 +16,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.lab_week_09.ui.theme.OnBackgroundTitleText
+import com.example.lab_week_09.ui.theme.PrimaryTextButton
+import com.example.lab_week_09.ui.theme.OnBackgroundItemText
+
 import com.example.lab_week_09.ui.theme.LAB_WEEK_09Theme
 
 
@@ -77,6 +81,7 @@ fun HomeContent(
     onButtonClick: () -> Unit
 ) {
     LazyColumn {
+        // Single input and button section
         item {
             Column(
                 modifier = Modifier
@@ -84,10 +89,12 @@ fun HomeContent(
                     .fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(text = stringResource(id = R.string.enter_item))
+                // Themed title
+                OnBackgroundTitleText(text = stringResource(id = R.string.enter_item))
 
                 Spacer(modifier = Modifier.height(8.dp))
 
+                // Input field (TextField is fine as is for now)
                 TextField(
                     value = inputField.name,
                     onValueChange = { onInputValueChange(it) },
@@ -97,12 +104,16 @@ fun HomeContent(
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                Button(onClick = { onButtonClick() }) {
-                    Text(text = stringResource(id = R.string.button_click))
+                // Themed button
+                PrimaryTextButton(
+                    text = stringResource(id = R.string.button_click)
+                ) {
+                    onButtonClick()
                 }
             }
         }
 
+        // List of items
         items(listData) { student ->
             Column(
                 modifier = Modifier
@@ -110,7 +121,8 @@ fun HomeContent(
                     .fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(text = student.name)
+                // Themed list item
+                OnBackgroundItemText(text = student.name)
             }
         }
     }
