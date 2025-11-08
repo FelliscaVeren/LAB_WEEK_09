@@ -41,6 +41,9 @@ android {
 
 dependencies {
 
+    implementation("androidx.compose.material3:material3:1.1.2")
+    implementation("androidx.compose.foundation:foundation:1.6.8")
+    implementation("androidx.compose.material3:material3:1.3.0")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
