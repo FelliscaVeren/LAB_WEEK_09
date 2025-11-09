@@ -1,6 +1,7 @@
 package com.example.lab_week_09
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
@@ -12,16 +13,17 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import androidx.navigation.NavType
 import com.example.lab_week_09.ui.theme.LAB_WEEK_09Theme
 import com.example.lab_week_09.ui.theme.OnBackgroundItemText
 import com.example.lab_week_09.ui.theme.OnBackgroundTitleText
@@ -78,6 +80,7 @@ fun App(navController: NavHostController) {
 fun Home(
     navigateFromHomeToResult: (String) -> Unit
 ) {
+    val context = LocalContext.current
     val listData = remember { mutableStateListOf<Student>() }
     var inputField by remember { mutableStateOf(Student("")) }
 
@@ -86,8 +89,13 @@ fun Home(
         inputField,
         { input -> inputField = inputField.copy(name = input) },
         {
-            listData.add(inputField)
-            inputField = inputField.copy(name = "")
+            // ✅ Validasi agar tidak bisa submit kosong
+            if (inputField.name.isNotBlank()) {
+                listData.add(inputField)
+                inputField = inputField.copy(name = "")
+            } else {
+                Toast.makeText(context, "Please enter a name!", Toast.LENGTH_SHORT).show()
+            }
         },
         { navigateFromHomeToResult(listData.toList().toString()) }
     )
